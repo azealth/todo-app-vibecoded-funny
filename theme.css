@@ -1,0 +1,175 @@
+/* ============================================================
+   DayDo — shared "paper planner" design system
+   Warm paper background, ruled-paper dividers, ink typography,
+   paper-checklist checkboxes. Same tokens power light & dark.
+   ============================================================ */
+
+:root {
+  --bg: #faf8f3;
+  --surface: #ffffff;
+  --ink: #24241f;
+  --ink-soft: #57564c;
+  --muted: #928d7c;
+  --line: #e4ddce;
+  --line-strong: #c9c0a9;
+  --accent: #5865f2;          /* Discord blurple — done / primary / sync-ok */
+  --accent-ink: #ffffff;
+  --accent-soft: #e8e9fd;
+  --warn: #ed4245;            /* Discord red — unfinished / overdue */
+  --warn-soft: #fbe1e1;
+  --danger: #ed4245;
+  --focus: #5865f2;
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --shadow-fab: 0 3px 10px rgba(36, 36, 31, 0.28);
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root[data-theme="dark"] {
+  --bg: #14171c;
+  --surface: #1b1f26;
+  --ink: #ece8dc;
+  --ink-soft: #c2bdac;
+  --muted: #7c8290;
+  --line: #2a2f38;
+  --line-strong: #3a4048;
+  --accent: #7983f5;
+  --accent-ink: #0f1229;
+  --accent-soft: #262a4a;
+  --warn: #f3767a;
+  --warn-soft: #3a2224;
+  --danger: #f3767a;
+  --focus: #7983f5;
+}
+
+* { box-sizing: border-box; }
+
+/* The `hidden` attribute only applies display:none via the browser's
+   default stylesheet, which normal-priority author rules (like the many
+   `display: flex` rules below) always outrank regardless of specificity.
+   Without this, toggling `.hidden = true` on an element that also has its
+   own `display` rule (the PIN screen, modals, the sync icon, etc.) does
+   nothing visually even though the DOM property is set correctly. This
+   makes `hidden` reliably win everywhere in the app. */
+[hidden] {
+  display: none !important;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+body { font-size: 14px; line-height: 1.45; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+a { color: var(--accent); }
+
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: var(--radius-s);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-soft);
+}
+.icon-btn:hover { background: var(--line); color: var(--ink); }
+.icon-btn svg { width: 18px; height: 18px; display: block; }
+
+.btn {
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 8px 14px;
+  border-radius: var(--radius-s);
+  font-size: 13px;
+  font-weight: 600;
+}
+.btn:hover { border-color: var(--ink-soft); }
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.btn-primary:hover { filter: brightness(1.06); }
+.btn-text {
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+  padding: 6px 4px;
+}
+.btn-danger { color: var(--danger); border-color: var(--danger); background: none; }
+
+.text-input {
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: var(--radius-s);
+  padding: 9px 10px;
+  width: 100%;
+}
+.text-input:disabled { opacity: .55; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.field .hint { font-size: 11.5px; color: var(--muted); }
+
+.hairline {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+::placeholder { color: var(--muted); }
+
+.empty-state {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 10px 4px 18px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+.pill-warn { background: var(--warn-soft); color: var(--warn); }
+.pill-accent { background: var(--accent-soft); color: var(--accent); }
+
+.scrollbar-thin::-webkit-scrollbar { width: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; }

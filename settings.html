@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>DayDo Settings</title>
+<link rel="stylesheet" href="theme.css" />
+<link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+
+  <!-- Re-uses the same PIN pad pattern as the popup, guarding this page too -->
+  <section id="pin-screen" class="pin-screen-page" hidden>
+    <div class="pin-card">
+      <h1>Enter your PIN</h1>
+      <p class="pin-subtitle">Settings are protected too.</p>
+      <div class="pin-dots" id="pin-dots">
+        <span class="pin-dot"></span><span class="pin-dot"></span><span class="pin-dot"></span><span class="pin-dot"></span>
+      </div>
+      <p class="pin-error" id="pin-error" hidden>That PIN didn't match. Try again.</p>
+      <div class="pin-pad" id="pin-pad">
+        <button class="pin-key" data-key="1">1</button>
+        <button class="pin-key" data-key="2">2</button>
+        <button class="pin-key" data-key="3">3</button>
+        <button class="pin-key" data-key="4">4</button>
+        <button class="pin-key" data-key="5">5</button>
+        <button class="pin-key" data-key="6">6</button>
+        <button class="pin-key" data-key="7">7</button>
+        <button class="pin-key" data-key="8">8</button>
+        <button class="pin-key" data-key="9">9</button>
+        <span></span>
+        <button class="pin-key" data-key="0">0</button>
+        <button class="pin-key pin-key-back" data-key="back" aria-label="Backspace">⌫</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="settings-app" hidden>
+    <header class="settings-topbar">
+      <h1>DayDo Settings</h1>
+      <button id="close-btn" class="btn">Done</button>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="general">General</button>
+      <button class="tab-btn" data-tab="yearly">Yearly Reminder</button>
+      <button class="tab-btn" data-tab="trash">Trash</button>
+    </nav>
+
+    <main class="settings-body">
+
+      <!-- ---------------- General ---------------- -->
+      <section id="tab-general" class="tab-panel active">
+        <div class="card">
+          <h2>Appearance</h2>
+          <div class="theme-toggle-row">
+            <span>Dark mode</span>
+            <label class="switch">
+              <input type="checkbox" id="theme-toggle" />
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>PIN</h2>
+          <div class="field">
+            <label for="pin-current">Current PIN</label>
+            <input id="pin-current" class="text-input" type="password" inputmode="numeric" maxlength="4" placeholder="••••" />
+          </div>
+          <div class="field">
+            <label for="pin-new">New PIN</label>
+            <input id="pin-new" class="text-input" type="password" inputmode="numeric" maxlength="4" placeholder="••••" />
+          </div>
+          <div class="field">
+            <label for="pin-new-confirm">Confirm new PIN</label>
+            <input id="pin-new-confirm" class="text-input" type="password" inputmode="numeric" maxlength="4" placeholder="••••" />
+          </div>
+          <p class="msg" id="pin-msg"></p>
+          <button id="pin-save" class="btn btn-primary">Update PIN</button>
+        </div>
+
+        <div class="card">
+          <h2>Sync (Firebase)</h2>
+          <p class="hint">Sync across devices through your own Firebase Realtime Database. Setup takes about five minutes — see the README. Leave this alone to keep DayDo local-only.</p>
+          <div class="field">
+            <label for="fb-db-url">Database URL</label>
+            <input id="fb-db-url" class="text-input" type="text" autocomplete="off" spellcheck="false"
+                   placeholder="https://your-project-default-rtdb.firebaseio.com" />
+          </div>
+          <div class="field">
+            <label for="fb-api-key">Web API key</label>
+            <input id="fb-api-key" class="text-input" type="text" autocomplete="off" spellcheck="false" placeholder="AIza…" />
+            <span class="hint">Tip: paste your whole <code>firebaseConfig</code> snippet into either field and both fill in.</span>
+          </div>
+
+          <div id="account-signed-out">
+            <div class="field">
+              <label for="fb-email">Email</label>
+              <input id="fb-email" class="text-input" type="email" autocomplete="username" />
+            </div>
+            <div class="field">
+              <label for="fb-password">Password</label>
+              <input id="fb-password" class="text-input" type="password" autocomplete="current-password" />
+              <span class="hint">Use the same account on every device you want to keep in sync. Your password is never stored.</span>
+            </div>
+            <button id="fb-sign-in" class="btn btn-primary">Sign in</button>
+            <button id="fb-sign-up" class="btn">Create account</button>
+          </div>
+
+          <div id="account-signed-in" hidden>
+            <p class="account-line">Signed in as <strong id="fb-account-email"></strong></p>
+            <p class="hint">User ID (needed only for the Discord dashboard): <code id="fb-account-uid" class="uid"></code></p>
+            <button id="fb-sync-now" class="btn btn-primary">Sync now</button>
+            <button id="fb-sign-out" class="btn">Sign out</button>
+          </div>
+
+          <p class="msg" id="sync-msg"></p>
+        </div>
+      </section>
+
+      <!-- ---------------- Yearly Reminder ---------------- -->
+      <section id="tab-yearly" class="tab-panel">
+        <div class="card">
+          <h2>Yearly reminders</h2>
+          <p class="hint">Each one automatically creates a task on the day you set, every year — birthdays, renewals, anniversaries.</p>
+          <div id="yearly-list" class="simple-list"></div>
+        </div>
+        <div class="card">
+          <h2>Add a yearly reminder</h2>
+          <div class="field">
+            <label for="yearly-text">Reminder text</label>
+            <input id="yearly-text" class="text-input" type="text" maxlength="200" placeholder="e.g. Mom's birthday" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="yearly-month">Month</label>
+              <select id="yearly-month" class="text-input">
+                <option value="1">January</option><option value="2">February</option>
+                <option value="3">March</option><option value="4">April</option>
+                <option value="5">May</option><option value="6">June</option>
+                <option value="7">July</option><option value="8">August</option>
+                <option value="9">September</option><option value="10">October</option>
+                <option value="11">November</option><option value="12">December</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="yearly-day">Day</label>
+              <input id="yearly-day" class="text-input" type="number" min="1" max="31" value="1" />
+            </div>
+          </div>
+          <button id="yearly-add" class="btn btn-primary">Add reminder</button>
+        </div>
+      </section>
+
+      <!-- ---------------- Trash ---------------- -->
+      <section id="tab-trash" class="tab-panel">
+        <div class="card">
+          <h2>Trash</h2>
+          <p class="hint">Every task you've finished lives here, organized by day.</p>
+          <div id="trash-list" class="simple-list"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script type="module" src="settings.js"></script>
+</body>
+</html>

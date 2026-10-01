@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<!--
+  Background event page. Loading background.js as a module from a page
+  (rather than via background.scripts + "type": "module" or a service
+  worker) uses the exact same mechanism the popup and settings pages
+  already use, which both Firefox and Safari (macOS and iOS) support. It's
+  non-persistent ("persistent": false in the manifest), as MV3 requires in
+  both browsers.
+-->
+<html><head><meta charset="UTF-8" /></head>
+<body><script type="module" src="background.js"></script></body></html>
