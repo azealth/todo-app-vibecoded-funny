@@ -1,0 +1,12 @@
+{
+  "name": "daydo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "lint:firefox": "npx --yes web-ext lint --source-dir extension",
+    "run:firefox": "npx --yes web-ext run --source-dir extension",
+    "package:firefox": "./scripts/package-firefox.sh",
+    "build:safari": "./scripts/build-safari.sh"
+  }
+}
